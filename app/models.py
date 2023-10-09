@@ -1,7 +1,7 @@
-from mongoengine import Document, FloatField, StringField, IntegerField
+from mongoengine import Document, FloatField, StringField, IntField
 
 class Label(Document):
-    id = IntegerField(required=True)
+    id = IntField(required=True)
     start = FloatField(required=True)
     end = FloatField(required=True)
     scientific_name = StringField(required=True)
