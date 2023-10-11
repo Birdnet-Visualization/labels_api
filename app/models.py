@@ -1,7 +1,7 @@
 from mongoengine import Document, FloatField, StringField, IntField
 
 class Label(Document):
-    id = IntField(required=True)
+    label_id = IntField(required=True)
     start = FloatField(required=True)
     end = FloatField(required=True)
     scientific_name = StringField(required=True)
@@ -10,7 +10,7 @@ class Label(Document):
 
     def to_dict(self):
         return {
-            "id": str(self.id),
+            "label_id": self.label_id,
             "start": self.start,
             "end": self.end,
             "scientific_name": self.scientific_name,

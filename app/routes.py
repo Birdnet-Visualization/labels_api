@@ -9,7 +9,7 @@ def add_label():
         label_data = request.get_json()
         label = Label(**label_data)
         label.save()
-        return jsonify({"message": "Label agregado exitosamente", "id": str(label.id)}), 201
+        return jsonify({"message": "Label agregado exitosamente", "id": str(label.label_id)}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 

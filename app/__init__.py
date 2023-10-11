@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 # Configura la conexión a MongoDB
 app.config['MONGODB_SETTINGS'] = {
-    'db': 'labels',  # Nombre de la base de datos
-    'host': 'mongodb://mongo:27017/labels'  # URI de conexión de MongoDB
+    'db': 'labels',
+    'host': 'mongo'  # This matches the service name in docker-compose.yml
 }
 
 # Conecta la aplicación a MongoDB
