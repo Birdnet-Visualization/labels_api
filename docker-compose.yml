@@ -20,7 +20,7 @@ services:
     networks:
       - host
     environment: 
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=user
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=vitocox18
       - ME_CONFIG_MONGODB_SERVER=mongo
       - ME_CONFIG_BASICAUTH_USERNAME=user
