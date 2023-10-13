@@ -1,24 +1,21 @@
-
 version: '3'
 services:
   mongo:
     image: mongo
     ports:
       - 27017:27017
-    networks:
-      - host
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=vitocox18
+      - MONGO_INITDB_DATABASE=labels
     volumes:
-      - mongodb-data
+      - ./mongodb-data:/data/db
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
   mongo-express:
     image: mongo-express
     ports:
       - 8081:8081
-    networks:
-      - host
     environment: 
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=vitocox18
@@ -32,16 +29,8 @@ services:
       - 5000:5000
     volumes:
       - .:/app
-    networks:
-      - host
     environment: 
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=vitocox18
     depends_on:
       - mongo
-
-networks:
-    host:
-
-volumes:
-  mongodb-data:
