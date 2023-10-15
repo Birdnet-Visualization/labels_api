@@ -1,3 +1,5 @@
 instrucciones.txt
 app/__pycache__/
 data/
+*.swp
+mongodb-data/*
