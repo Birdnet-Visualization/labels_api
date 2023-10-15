@@ -19,9 +19,31 @@ def get_labels():
     labels = Label.objects.all()
     return jsonify([label.to_dict() for label in labels])
 
+# Ruta para obtener un label por label_id (GET)
+@app.route("/get_label/<int:label_id>", methods=["GET"])
+def get_label(label_id):
+    label = Label.objects(label_id=label_id).first()
+    if label:
+        return jsonify(label.to_dict())
+    else:
+        return jsonify({"message": "Label no encontrado"}), 404
+
+# Ruta para eliminar un label por label_id (DELETE)
+@app.route("/delete_label/<int:label_id>", methods=["DELETE"])
+def delete_label(label_id):
+    try:
+        label = Label.objects(label_id=label_id).first()
+        if label:
+            label.delete()
+            return jsonify({"message": "Label eliminado exitosamente"}), 200
+        else:
+            return jsonify({"message": "Label no encontrado"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
 # Ruta para obtener un label por ID (GET)
 @app.route("/get_label/<string:label_id>", methods=["GET"])
-def get_label(label_id):
+def get_label_by_uid(label_id):
     label = Label.objects(id=label_id).first()
     if label:
         return jsonify(label.to_dict())
@@ -30,7 +52,7 @@ def get_label(label_id):
 
 # Ruta para eliminar un label por ID (DELETE)
 @app.route("/delete_label/<string:label_id>", methods=["DELETE"])
-def delete_label(label_id):
+def delete_label_by_uid(label_id):
     try:
         label = Label.objects(id=label_id).first()
         if label:
