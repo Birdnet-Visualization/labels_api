@@ -28,6 +28,12 @@ def get_label(label_id):
     else:
         return jsonify({"message": "Label no encontrado"}), 404
 
+# Ruta para obtener un label por label_id (GET)
+@app.route("/get_labels_by_split/<int:split>", methods=["GET"])
+def get_labels_by_split(split):
+    labels = Label.objects(split=split).all()
+    return jsonify([label.to_dict() for label in labels])
+
 # Ruta para eliminar un label por label_id (DELETE)
 @app.route("/delete_label/<int:label_id>", methods=["DELETE"])
 def delete_label(label_id):
