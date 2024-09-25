@@ -2,24 +2,24 @@ from mongoengine import Document, FloatField, StringField, IntField
 
 class Label(Document):
     label_id = IntField(required=True)
-    start_timestamp = IntField(required=True)
+    start_timestamp = IntField(required=True, unique=True)
     end_timestamp = IntField(required=True)
-    start = FloatField(required=True)
-    end = FloatField(required=True)
     scientific_name = StringField(required=True)
     common_name = StringField(required=True)
     confidence = FloatField(required=True)
-    split = IntField(required=True)
+
+    @classmethod
+    def ensure_indexes(cls):
+        super(Label, cls).ensure_indexes()
 
     def to_dict(self):
         return {
             "label_id": self.label_id,
             "start_timestamp": self.start_timestamp,
             "end_timestamp": self.end_timestamp,
-            "start": self.start,
-            "end": self.end,
             "scientific_name": self.scientific_name,
             "common_name": self.common_name,
             "confidence": self.confidence,
-            "split": self.split
         }
+
+Label.ensure_indexes()
