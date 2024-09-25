@@ -41,14 +41,13 @@ def get_labels_by_timestamp_range(start_timestamp, end_timestamp):
     return jsonify([label.to_dict() for label in labels])
 
 # Ruta para obtener un label por label_id (GET)
-@app.route("/get_labels_between_timestamps/<int:start>/<int:end>", methods=["GET"])
-def get_labels_between_timestamps(start, end):
-    labels = Label.objects(
-        Q(start_timestamp__lte=start) & Q(end_timestamp__gte=end)
-        | Q(start_timestamp__gte=start) & Q(end_timestamp__lte=end)
-        | Q(start_timestamp__gte=start) & Q(start_timestamp__lte=end)
-        | Q(end_timestamp__gte=start) & Q(end_timestamp__lte=end)
-        ).all()
+@app.route("/get_labels_by_timestamp_range/<int:start_timestamp>/<int:end_timestamp>", methods=["GET"])
+def get_labels_by_timestamp_range(start_timestamp, end_timestamp):
+    labels = Label.objects.filter(
+        start_timestamp__lte=end_timestamp,
+        end_timestamp__gte=start_timestamp
+    )
+    labels = list(labels)
     return jsonify([label.to_dict() for label in labels])
 
 # Ruta para eliminar un label por label_id (DELETE)
