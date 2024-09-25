@@ -1,6 +1,7 @@
 from app import app
 from flask import jsonify, request
 from app.models import Label
+from mongoengine.queryset import Q  # Import Q from the queryset module
 
 # Ruta para agregar un nuevo label (POST)
 @app.route("/add_label", methods=["POST"])
@@ -37,6 +38,17 @@ def get_labels_by_timestamp_range(start_timestamp, end_timestamp):
     
     labels = list(labels)  # Convertir a lista
 
+    return jsonify([label.to_dict() for label in labels])
+
+# Ruta para obtener un label por label_id (GET)
+@app.route("/get_labels_between_timestamps/<int:start>/<int:end>", methods=["GET"])
+def get_labels_between_timestamps(start, end):
+    labels = Label.objects(
+        Q(start_timestamp__lte=start) & Q(end_timestamp__gte=end)
+        | Q(start_timestamp__gte=start) & Q(end_timestamp__lte=end)
+        | Q(start_timestamp__gte=start) & Q(start_timestamp__lte=end)
+        | Q(end_timestamp__gte=start) & Q(end_timestamp__lte=end)
+        ).all()
     return jsonify([label.to_dict() for label in labels])
 
 # Ruta para eliminar un label por label_id (DELETE)
