@@ -28,10 +28,15 @@ def get_label(label_id):
     else:
         return jsonify({"message": "Label no encontrado"}), 404
 
-# Ruta para obtener un label por label_id (GET)
-@app.route("/get_labels_by_split/<int:split>", methods=["GET"])
-def get_labels_by_split(split):
-    labels = Label.objects(split=split).all()
+@app.route("/get_labels_by_timestamp_range/<int:start_timestamp>/<int:end_timestamp>", methods=["GET"])
+def get_labels_by_timestamp_range(start_timestamp, end_timestamp):
+    labels = Label.objects.filter(
+        start_timestamp__lte=end_timestamp,
+        end_timestamp__gte=start_timestamp
+    )
+    
+    labels = list(labels)  # Convertir a lista
+
     return jsonify([label.to_dict() for label in labels])
 
 # Ruta para eliminar un label por label_id (DELETE)
