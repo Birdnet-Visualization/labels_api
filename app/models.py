@@ -6,6 +6,7 @@ class Label(Document):
     end_timestamp = IntField(required=True)
     scientific_name = StringField(required=True)
     common_name = StringField(required=True)
+    local_name = StringField(required=True)
     confidence = FloatField(required=True)
 
     @classmethod
@@ -19,6 +20,7 @@ class Label(Document):
             "end_timestamp": self.end_timestamp,
             "scientific_name": self.scientific_name,
             "common_name": self.common_name,
+            "local_name": self.local_name,
             "confidence": self.confidence,
         }
 
