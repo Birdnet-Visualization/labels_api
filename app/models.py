@@ -1,14 +1,19 @@
-from mongoengine import Document, FloatField, StringField, IntField
-
+from mongoengine import Document, FloatField, StringField, IntField, SequenceField
 class Label(Document):
-    label_id = IntField(required=True)
-    start_timestamp = IntField(required=True, unique=True)
+    label_id = SequenceField(required=True)
+    start_timestamp = IntField(required=True)
     end_timestamp = IntField(required=True)
     scientific_name = StringField(required=True)
     common_name = StringField(required=True)
     local_name = StringField(required=True)
     confidence = FloatField(required=True)
 
+    meta = {
+        'indexes': [
+            {'fields': ['start_timestamp', 'scientific_name'], 'unique': True}  # índice único
+        ]
+    }
+    
     @classmethod
     def ensure_indexes(cls):
         super(Label, cls).ensure_indexes()
